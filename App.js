@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Switch } from 'react-native';
+import React, { useState } from 'react';
 import { Card } from 'react-native-elements';
 
 import GanttTask from './components/GanttTask';
@@ -8,7 +8,8 @@ import GanttBackground from './components/GanttBackground';
 import { ScrollView } from 'react-native-web';
 
 export default function App() {
-  const numberOfLines = 6;
+  var lines = 5;
+  const [checked, setChecked] = useState(false);
 
   const items = [
     { ID: '1', Title: 'Item 1', StartDate: '2023-01-01', EndDate: '2023-01-10' },
@@ -25,29 +26,18 @@ export default function App() {
       {/* <Card containerStyle={{ width: '75%', left: '25%' }}  >
         <Text style={{ fontSize: 18 }}>Hello, sono un'altra card</Text>
       </Card> */}
+      <Card>
+        <Text>cIAO</Text>
+        <Switch />
+      </Card>
       <Card containerStyle={styles.ganttCard} wrapperStyle={styles.ganttCardContent}>
         {/* <View style={styles.label}>
           <Text>LUN</Text>
-        </View>
-        <GanttBackground />
+        </View> */}
+        <GanttBackground lines={lines} />
         {items.map((item, index) => (
           <GanttTask key={item.ID} item={item} index={index} />
-        ))} */}
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
-        <Text style={styles.TestText}>Suca</Text>
+        ))}
       </Card>
     </ScrollView >
   );
@@ -66,6 +56,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     // flexDirection: 'column',
     flexWrap: 'wrap',
+    flexGrow: 1
   },
   ganttCardContent: {
     flex: 1,
@@ -90,5 +81,18 @@ const styles = StyleSheet.create({
   },
   TestText: {
     fontSize: 45,
-  }
+  },
+  //TEMP
+  taskContainer: {
+    //top: 25,
+    backgroundColor: 'blue', // Set the background color
+    padding: 13,
+    borderRadius: 5,
+    height: 75,
+    // width: '20%'
+    //...StyleSheet.absoluteFillObject,
+  },
+  taskTitle: {
+    color: 'white',
+  },
 });
