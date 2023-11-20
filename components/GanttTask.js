@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
         // left: 1.5,
         // flexWrap: 'wrap',
         // flexGrow: 1
+        marginTop: 25,
         position: 'relative',
         zIndex: 2
     }

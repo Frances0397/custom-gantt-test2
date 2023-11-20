@@ -8,8 +8,8 @@ import GanttBackground from './components/GanttBackground';
 import { ScrollView } from 'react-native-web';
 
 export default function App() {
-  var lines = 5;
   const [checked, setChecked] = useState(false);
+  const [lines, setLines] = useState(5);
 
   const items = [
     { ID: '1', Title: 'Item 1', StartDate: '2023-01-01', EndDate: '2023-01-10' },
@@ -21,6 +21,27 @@ export default function App() {
     // Add more items as needed
   ];
 
+  const getDaysInMonth = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const lastDay = new Date(year, month, 0).getDate();
+
+    return lastDay;
+  }
+
+  const daysOfCurrentMonth = getDaysInMonth();
+  console.log(daysOfCurrentMonth);
+
+  const toggleSwitch = () => {
+    setChecked(previousState => !previousState);
+    if (checked) {
+      setLines(daysOfCurrentMonth);
+    } else {
+      setLines(5);
+    }
+  }
+
   return (
     <ScrollView style={styles.container}>
       {/* <Card containerStyle={{ width: '75%', left: '25%' }}  >
@@ -28,7 +49,7 @@ export default function App() {
       </Card> */}
       <Card>
         <Text>cIAO</Text>
-        <Switch />
+        <Switch value={checked} onValueChange={toggleSwitch} />
       </Card>
       <Card containerStyle={styles.ganttCard} wrapperStyle={styles.ganttCardContent}>
         {/* <View style={styles.label}>
