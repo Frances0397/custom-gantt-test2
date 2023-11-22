@@ -34,9 +34,9 @@ export default function GanttBackground({ lines }) {
                     style={[
                         styles.line,
                         {
-                            left: `${index === currentIndex ? (index / lines) * 100 + 1 : (index / lines) * 100}%`, // Adjust position based on the number of lines
+                            left: `${index === currentIndex ? (index / lines) * 100 : (index / lines) * 100}%`, // Adjust position based on the number of lines
                             backgroundColor: index === currentIndex ? 'red' : 'green',//'#F3F4F5',
-                            width: index === currentIndex ? `${1 / lines * 100 - 1}%` : 2,
+                            width: index === currentIndex ? `${1 / lines * 100}%` : 2,
                             borderRadius: index === currentIndex ? 0 : 50,
                             opacity: index === currentIndex ? '20%' : '100%',
                             zIndex: 0
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         // minHeight: 450, 
         flexDirection: 'row',
         position: 'absolute',
-        top: 40,
+        top: 50,
         bottom: 20
     },
     line: {

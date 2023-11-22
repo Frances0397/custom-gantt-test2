@@ -35,7 +35,7 @@ export default function App() {
 
   const toggleSwitch = () => {
     setChecked(previousState => !previousState);
-    if (checked) {
+    if (!checked) {
       setLines(daysOfCurrentMonth);
     } else {
       setLines(5);
@@ -52,12 +52,12 @@ export default function App() {
         <Switch value={checked} onValueChange={toggleSwitch} />
       </Card>
       <Card containerStyle={styles.ganttCard} wrapperStyle={styles.ganttCardContent}>
-        {/* <View style={styles.label}>
-          <Text>LUN</Text>
-        </View> */}
+        <View style={[styles.label, { left: `${2.2 / (lines ** 2) * 100}%` }]}>
+          <Text>{!checked ? "LUN" : "L"}</Text>
+        </View>
         <GanttBackground lines={lines} />
         {items.map((item, index) => (
-          <GanttTask key={item.ID} item={item} index={index} />
+          <GanttTask key={item.ID} item={item} index={index} lines={lines} />
         ))}
       </Card>
     </ScrollView >
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
   label: {
     top: 20,
     bottom: 15,
-    left: `${2 / 25 * 100}%`
   },
   container: {
     //flex: 1,

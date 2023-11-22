@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-export default function GanttTask({ item, index }) {
+export default function GanttTask({ item, index, lines }) {
 
     const onPress = (index) => {
         console.log("pressed");
@@ -17,7 +17,7 @@ export default function GanttTask({ item, index }) {
         <View style={styles.taskParent}>
             <TouchableOpacity style={[styles.taskContainer,
             {
-                width: `${(numberOfDays + index) * (1 / 5) * 100}%`
+                width: `${(numberOfDays + index) * (1 / lines) * 100}%`
             }]}
                 onPress={() => { alert(index); }}>
                 <Text style={styles.taskTitle}>{item.ID} - {item.Title}</Text>
