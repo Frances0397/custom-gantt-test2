@@ -12,11 +12,11 @@ export default function App() {
   const [lines, setLines] = useState(5);
 
   const items = [
-    { ID: '1', Title: 'Item 1', StartDate: '2023-01-01', EndDate: '2023-01-10' },
-    { ID: '2', Title: 'Item 2', StartDate: '2023-02-01', EndDate: '2023-02-10' },
-    { ID: '3', Title: 'Item 3', StartDate: '2023-02-01', EndDate: '2023-02-10' },
-    { ID: '4', Title: 'Item 4', StartDate: '2023-02-01', EndDate: '2023-02-10' },
-    { ID: '5', Title: 'Item 5', StartDate: '2023-02-01', EndDate: '2023-02-10' },
+    { ID: '1', Title: 'Item 1', StartDate: '2023-11-01', EndDate: '2023-11-23' },
+    { ID: '2', Title: 'Item 2', StartDate: '2023-11-21', EndDate: '2023-11-24' },
+    { ID: '3', Title: 'Item 3', StartDate: '2023-11-20', EndDate: '2023-11-23' },
+    { ID: '4', Title: 'Item 4', StartDate: '2023-11-15', EndDate: '2023-11-22' },
+    { ID: '5', Title: 'Item 5', StartDate: '2023-11-22', EndDate: '2023-11-30' },
     // { ID: '6', Title: 'Item 6', StartDate: '2023-02-01', EndDate: '2023-02-10' },
     // Add more items as needed
   ];
@@ -36,11 +36,41 @@ export default function App() {
   const toggleSwitch = () => {
     setChecked(previousState => !previousState);
     if (!checked) {
-      setLines(daysOfCurrentMonth);
+      setLines(daysOfCurrentMonth + 2);
     } else {
       setLines(5);
     }
   }
+
+  const daysOfWeek = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven'];
+
+  const currentDate = new Date();
+  const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+  console.log(firstDay);
+
+  const mapDaysToLabel = (day, daysOfCurrentMonth) => {
+    const daysMap = {
+      1: "L",
+      2: "M",
+      3: "M",
+      4: "G",
+      5: "V",
+      6: "S",
+      0: "D"
+    };
+
+    let mappedDays = [];
+    while (day < daysOfCurrentMonth + firstDay) {
+      const index = day % 7;
+      mappedDays.push(daysMap[index]);
+      day++
+    }
+
+    return mappedDays;
+  }
+
+  const monthArray = mapDaysToLabel(firstDay, daysOfCurrentMonth);
+  console.log(monthArray);
 
   return (
     <ScrollView style={styles.container}>
@@ -52,12 +82,15 @@ export default function App() {
         <Switch value={checked} onValueChange={toggleSwitch} />
       </Card>
       <Card containerStyle={styles.ganttCard} wrapperStyle={styles.ganttCardContent}>
-        <View style={[styles.label, { left: `${2.2 / (lines ** 2) * 100}%` }]}>
-          <Text>{!checked ? "LUN" : "L"}</Text>
-        </View>
+        {!checked ?
+          <View style={[styles.label]}>
+            {daysOfWeek.map(day => (<Text key={day} style={styles.labelText}>{day}</Text>))}
+          </View> : <View style={[styles.monthLabel]}>
+            {monthArray.map((day, index) => (<Text key={index} style={styles.monthText}>{day}</Text>))}
+          </View>}
         <GanttBackground lines={lines} />
         {items.map((item, index) => (
-          <GanttTask key={item.ID} item={item} index={index} lines={lines} />
+          <GanttTask key={item.ID} item={item} index={index} lines={lines} start={item.StartDate} end={item.EndDate} />
         ))}
       </Card>
     </ScrollView >
@@ -94,6 +127,24 @@ const styles = StyleSheet.create({
   label: {
     top: 20,
     bottom: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '90%',
+    left: '3%'
+  },
+  labelText: {
+    marginLeft: '6%'
+  },
+  monthLabel: {
+    top: 20,
+    bottom: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '98.5%',
+    left: '0.4%'
+  },
+  monthText: {
+    marginLeft: '0.7%'
   },
   container: {
     //flex: 1,

@@ -1,13 +1,50 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-export default function GanttTask({ item, index, lines }) {
+export default function GanttTask({ item, index, lines, start, end }) {
 
     const onPress = (index) => {
         console.log("pressed");
         alert("Ciao, sono un task! " + index);
     }
 
-    const numberOfDays = 2;
+    //converto le date da stringhe a numeri  //TEMPORANEO cambiare in accordo con il tipo data finale!!!
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    console.log(startDate);
+    console.log(endDate);
+
+    const numberOfDays = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+    console.log(numberOfDays);
+
+    const getFirstDayOfTheWeek = () => {
+        const now = new Date();
+        const currentDayOfWeek = ((now.getDay() - 1) + 7) % 7; // 0 is Sunday, 1 is Monday, ..., 6 is Saturday
+
+        console.log(currentDayOfWeek);
+
+        // Set the time to midnight to get the start of the day
+        const firstDayOfWeek = new Date(now);
+        firstDayOfWeek.setDate(now.getDate() - currentDayOfWeek);
+        firstDayOfWeek.setHours(0, 0, 0, 0);
+
+        return firstDayOfWeek;
+    }
+
+    const firstDayOfWeek = getFirstDayOfTheWeek();
+    console.log(firstDayOfWeek)
+
+    //calcolo giorno iniziale; se non rientra nella settimana/mese in corso imposto a -1
+    const getFirstDayIndex = () => {
+        switch (lines) {
+            case 5:
+                startDate
+            default:
+
+        }
+    }
+
+    //calcolo giorno finale; se non rientra nella settimana/mese in corso imposto a 9999
 
     return (
         // <View style={[styles.taskParent, {
@@ -17,7 +54,7 @@ export default function GanttTask({ item, index, lines }) {
         <View style={styles.taskParent}>
             <TouchableOpacity style={[styles.taskContainer,
             {
-                width: `${(numberOfDays + index) * (1 / lines) * 100}%`
+                width: `${(numberOfDays) * (1 / lines) * 100}%`
             }]}
                 onPress={() => { alert(index); }}>
                 <Text style={styles.taskTitle}>{item.ID} - {item.Title}</Text>
