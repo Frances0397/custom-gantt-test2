@@ -12,12 +12,12 @@ export default function App() {
   const [lines, setLines] = useState(5);
 
   const items = [
-    { ID: '1', Title: 'Item 1', StartDate: '2023-11-01', EndDate: '2023-11-23' },
-    { ID: '2', Title: 'Item 2', StartDate: '2023-11-21', EndDate: '2023-11-24' },
-    { ID: '3', Title: 'Item 3', StartDate: '2023-11-20', EndDate: '2023-11-23' },
-    { ID: '4', Title: 'Item 4', StartDate: '2023-11-15', EndDate: '2023-11-22' },
+    { ID: '1', Title: 'Item 1', StartDate: '2023-11-01', EndDate: '2023-11-28' },
+    { ID: '2', Title: 'Item 2', StartDate: '2023-11-28', EndDate: '2023-12-01' },
+    { ID: '3', Title: 'Item 3', StartDate: '2023-11-27', EndDate: '2023-11-30' },
+    { ID: '4', Title: 'Item 4', StartDate: '2023-11-15', EndDate: '2023-11-29' },
     { ID: '5', Title: 'Item 5', StartDate: '2023-11-22', EndDate: '2023-11-30' },
-    // { ID: '6', Title: 'Item 6', StartDate: '2023-02-01', EndDate: '2023-02-10' },
+    { ID: '6', Title: 'Item 6', StartDate: '2023-11-28', EndDate: '2023-11-30' },
     // Add more items as needed
   ];
 
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     bottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '98.5%',
+    width: '93%',
     left: '0.4%'
   },
   monthText: {

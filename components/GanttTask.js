@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 export default function GanttTask({ item, index, lines, start, end }) {
 
+    console.log("Index ", index);
+
     const onPress = (index) => {
         console.log("pressed");
         alert("Ciao, sono un task! " + index);
@@ -11,11 +13,14 @@ export default function GanttTask({ item, index, lines, start, end }) {
     const startDate = new Date(start);
     const endDate = new Date(end);
 
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(0, 0, 0, 0);
+
     console.log(startDate);
     console.log(endDate);
 
-    const numberOfDays = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
-    console.log(numberOfDays);
+    // const numberOfDays = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+    // console.log(numberOfDays);
 
     const getFirstDayOfTheWeek = () => {
         const now = new Date();
@@ -34,17 +39,59 @@ export default function GanttTask({ item, index, lines, start, end }) {
     const firstDayOfWeek = getFirstDayOfTheWeek();
     console.log(firstDayOfWeek)
 
+    const firstDayOfMonth = new Date();
+    firstDayOfMonth.setDate(1);
+    firstDayOfMonth.setHours(0, 0, 0, 0);
+    console.log(firstDayOfMonth);
+
     //calcolo giorno iniziale; se non rientra nella settimana/mese in corso imposto a -1
-    const getFirstDayIndex = () => {
+    const getFirstDayIndex = (startDate, firstDayOfWeek, firstDayOfMonth) => {
         switch (lines) {
             case 5:
-                startDate
+                if (startDate <= firstDayOfWeek) {
+                    return 0;
+                } else {
+                    return (startDate - firstDayOfWeek) / (1000 * 60 * 60 * 24) + 1;
+                }
             default:
-
+                if (startDate <= firstDayOfMonth) {
+                    return 0;
+                } else {
+                    return (startDate - firstDayOfMonth) / (1000 * 60 * 60 * 24) + 2;
+                }
         }
     }
 
-    //calcolo giorno finale; se non rientra nella settimana/mese in corso imposto a 9999
+    const firstDayIndex = getFirstDayIndex(startDate, firstDayOfWeek, firstDayOfMonth);
+    console.log(firstDayIndex);
+
+    const getNumberOfDays = (firstDayOfWeek, startDate, endDate) => {
+        var numberOfDays = 0;
+        if (lines === 5) {
+            if (firstDayIndex === 0) {
+                numberOfDays = (endDate - firstDayOfWeek) / (1000 * 60 * 60 * 24) + 1;
+            } else {
+                numberOfDays = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+            }
+        } else {
+            if (firstDayIndex === 0) {
+                numberOfDays = (endDate - firstDayOfMonth) / (1000 * 60 * 60 * 24) + 2;
+            } else {
+                numberOfDays = (endDate - startDate) / (1000 * 60 * 60 * 24) + 2;
+            }
+        }
+
+        return numberOfDays;
+    }
+
+    const numberOfDays = getNumberOfDays(firstDayOfWeek, startDate, endDate);
+    console.log(numberOfDays);
+
+    // if (lines != 5) {
+    //     lines = lines + 2;
+    // }
+
+    console.log(lines);
 
     return (
         // <View style={[styles.taskParent, {
@@ -54,7 +101,8 @@ export default function GanttTask({ item, index, lines, start, end }) {
         <View style={styles.taskParent}>
             <TouchableOpacity style={[styles.taskContainer,
             {
-                width: `${(numberOfDays) * (1 / lines) * 100}%`
+                width: `${(numberOfDays) * (1 / lines) * 100 + 0.05 * numberOfDays}%`,
+                left: `${firstDayIndex === 0 ? 0 : (firstDayIndex - 1) * (1 / lines) * 100 + 0.05 * firstDayIndex}%`
             }]}
                 onPress={() => { alert(index); }}>
                 <Text style={styles.taskTitle}>{item.ID} - {item.Title}</Text>
@@ -71,12 +119,12 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         height: 75,
         marginTop: 25,
-        marginLeft: 2,
+        // marginLeft: 2,
         // marginBottom: 55,
         //top: 219,
         // width: '20%',
         // ...StyleSheet.absoluteFillObject,
-        left: 1.5,
+        //left: 1.5,
         // position: 'absolute',
     },
     taskTitle: {
