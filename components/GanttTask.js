@@ -57,7 +57,7 @@ export default function GanttTask({ item, index, lines, start, end }) {
                 if (startDate <= firstDayOfMonth) {
                     return 0;
                 } else {
-                    return (startDate - firstDayOfMonth) / (1000 * 60 * 60 * 24) + 2;
+                    return (startDate - firstDayOfMonth) / (1000 * 60 * 60 * 24) + 1;
                 }
         }
     }
@@ -75,9 +75,9 @@ export default function GanttTask({ item, index, lines, start, end }) {
             }
         } else {
             if (firstDayIndex === 0) {
-                numberOfDays = (endDate - firstDayOfMonth) / (1000 * 60 * 60 * 24) + 2;
+                numberOfDays = (endDate - firstDayOfMonth) / (1000 * 60 * 60 * 24) + 1;
             } else {
-                numberOfDays = (endDate - startDate) / (1000 * 60 * 60 * 24) + 2;
+                numberOfDays = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
             }
         }
 
@@ -102,7 +102,8 @@ export default function GanttTask({ item, index, lines, start, end }) {
             <TouchableOpacity style={[styles.taskContainer,
             {
                 width: `${(numberOfDays) * (1 / lines) * 100 + 0.05 * numberOfDays}%`,
-                left: `${firstDayIndex === 0 ? 0 : (firstDayIndex - 1) * (1 / lines) * 100 + 0.05 * firstDayIndex}%`
+                left: `${firstDayIndex === 0 ? 0 : (firstDayIndex - 1) * (1 / lines) * 100 + 0.05 * firstDayIndex}%`,
+                height: lines === 5 ? 75 : 40
             }]}
                 onPress={() => { alert(index); }}>
                 <Text style={styles.taskTitle}>{item.ID} - {item.Title}</Text>

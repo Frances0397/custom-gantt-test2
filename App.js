@@ -18,6 +18,7 @@ export default function App() {
     { ID: '4', Title: 'Item 4', StartDate: '2023-11-15', EndDate: '2023-11-29' },
     { ID: '5', Title: 'Item 5', StartDate: '2023-11-22', EndDate: '2023-11-30' },
     { ID: '6', Title: 'Item 6', StartDate: '2023-11-28', EndDate: '2023-11-30' },
+    { ID: '7', Title: 'Item 7', StartDate: '2023-11-28', EndDate: '2023-11-29' },
     // Add more items as needed
   ];
 
@@ -36,7 +37,7 @@ export default function App() {
   const toggleSwitch = () => {
     setChecked(previousState => !previousState);
     if (!checked) {
-      setLines(daysOfCurrentMonth + 2);
+      setLines(daysOfCurrentMonth);
     } else {
       setLines(5);
     }
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     bottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '90%',
+    width: '89%',
     left: '3%'
   },
   labelText: {
@@ -140,11 +141,11 @@ const styles = StyleSheet.create({
     bottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '93%',
-    left: '0.4%'
+    width: '100.5%',
+    left: '0.6%'
   },
   monthText: {
-    marginLeft: '0.7%'
+    marginLeft: '0.5%'
   },
   container: {
     //flex: 1,

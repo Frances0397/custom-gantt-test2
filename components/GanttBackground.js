@@ -35,8 +35,8 @@ export default function GanttBackground({ lines }) {
                         styles.line,
                         {
                             left: `${index === currentIndex ? (index / lines) * 100 : (index / lines) * 100}%`, // Adjust position based on the number of lines
-                            backgroundColor: index === currentIndex ? 'red' : 'green',//'#F3F4F5',
-                            width: index === currentIndex ? `${1 / lines * 100}%` : `0.05%`,
+                            backgroundColor: index === currentIndex ? 'red' : '#bbc2c7',
+                            width: index === currentIndex ? `${1 / lines * 100}%` : `0.07%`,
                             borderRadius: index === currentIndex ? 0 : 50,
                             opacity: index === currentIndex ? '20%' : '100%',
                             zIndex: 0
@@ -52,7 +52,7 @@ export default function GanttBackground({ lines }) {
                     },
                 ]}
             />
-            {currentIndex != -1 ? <View //RIGA DI PARTENZA GIORNO IN CORSO -@TODO: se l'indice è -1 non devo renderarla
+            {/* {currentIndex != -1 ? <View //RIGA DI PARTENZA GIORNO IN CORSO -@TODO: se l'indice è -1 non devo renderarla
                 style={[
                     styles.line,
                     {
@@ -61,7 +61,7 @@ export default function GanttBackground({ lines }) {
                         left: `${(currentIndex - 1 / lines) * 100}%`, // Adjust position based on the number of lines
                     },
                 ]}
-            /> : <View />}
+            /> : <View />} */}
         </View>
     );
 }
