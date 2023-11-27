@@ -111,7 +111,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     // flexDirection: 'column',
     flexWrap: 'wrap',
-    flexGrow: 1
+    flexGrow: 1,
+    height: '150%'
   },
   ganttCardContent: {
     flex: 1,
@@ -123,7 +124,10 @@ const styles = StyleSheet.create({
     // // overflow: 'hidden',
     // bottom: 10
     flexWrap: 'wrap',
-    flexGrow: 1
+    flexGrow: 1,
+    height: '150%',
+    marginBottom: 55,
+    // marginTop: 55
   },
   label: {
     top: 20,

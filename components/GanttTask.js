@@ -98,12 +98,13 @@ export default function GanttTask({ item, index, lines, start, end }) {
         //     top: 65 + (index * 100),
         //     // width: `${(numberOfDays + index) * (1 / 5) * 100}%`
         // }]}>
-        <View style={styles.taskParent}>
+        <View style={[styles.taskParent, { marginTop: lines === 5 ? 8 : 15 }]}>
             <TouchableOpacity style={[styles.taskContainer,
             {
                 width: `${(numberOfDays) * (1 / lines) * 100 + 0.05 * numberOfDays}%`,
                 left: `${firstDayIndex === 0 ? 0 : (firstDayIndex - 1) * (1 / lines) * 100 + 0.05 * firstDayIndex}%`,
-                height: lines === 5 ? 75 : 40
+                height: lines === 5 ? 75 : 40,
+                marginTop: lines === 5 ? '7%' : '3%',
             }]}
                 onPress={() => { alert(index); }}>
                 <Text style={styles.taskTitle}>{item.ID} - {item.Title}</Text>
@@ -119,7 +120,6 @@ const styles = StyleSheet.create({
         padding: 13,
         borderRadius: 5,
         height: 75,
-        marginTop: 25,
         // marginLeft: 2,
         // marginBottom: 55,
         //top: 219,
@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
         // left: 1.5,
         // flexWrap: 'wrap',
         // flexGrow: 1
-        marginTop: 25,
+        // marginTop: 8,
         position: 'relative',
-        zIndex: 2
+        zIndex: 2,
     }
 });
