@@ -1,6 +1,15 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useEffect, useState } from 'react';
 
-export default function GanttTask({ item, index, lines, start, end }) {
+export default function GanttTask({ item, index, lines, start, end, absences }) {
+
+    const [lastDayLeave, setLastDayLeave] = useState(null);
+    var absence = {};
+
+    useEffect(() => {
+        setLastDayLeave(absences[absences.length - 1].to.getDate());
+        absence = absences[0]; //MDA
+    }, [])
 
     console.log("Index ", index);
 
@@ -91,6 +100,14 @@ export default function GanttTask({ item, index, lines, start, end }) {
     //     lines = lines + 2;
     // }
 
+    const isAbsent = (from, to) =>{
+        console.log("ABSENCE - FROM: " + absence.from + " TO: " + absence.to);
+        var fromDate = new Date(from);
+        var toDate = new Date(to);
+        console.log("TASK - FROM: " + fromDate + " TO: " + toDate);
+        return (fromDate <= absence.to && toDate >= absence.from) ? 'black' : 'blue';
+    }
+
     console.log(lines);
 
     return (
@@ -105,6 +122,7 @@ export default function GanttTask({ item, index, lines, start, end }) {
                 left: `${firstDayIndex === 0 ? 0 : (firstDayIndex - 1) * (1 / lines) * 100 + 0.05 * firstDayIndex}%`,
                 height: lines === 5 ? 75 : 40,
                 marginTop: lines === 5 ? '7%' : '3%',
+                backgroundColor: `${isAbsent(item.StartDate, item.EndDate)}`
             }]}
                 onPress={() => { alert(index); }}>
                 <Text style={styles.taskTitle}>{item.ID} - {item.Title}</Text>
@@ -116,7 +134,7 @@ export default function GanttTask({ item, index, lines, start, end }) {
 const styles = StyleSheet.create({
     taskContainer: {
         //top: 25,
-        backgroundColor: 'blue', // Set the background color
+        // backgroundColor: 'blue', // Set the background color
         padding: 13,
         borderRadius: 5,
         height: 75,
