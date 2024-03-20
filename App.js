@@ -24,9 +24,9 @@ export default function App() {
 
   const absence = {};
   absence.from = new Date();
-  absence.from.setDate(19);
+  absence.from.setDate(1);
   absence.to = new Date();
-  absence.to.setDate(21);
+  absence.to.setDate(31);
   const absences = [];
   absences.push(absence);
 

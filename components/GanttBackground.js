@@ -85,6 +85,9 @@ export default function GanttBackground({ lines, absences }) {
             }
             return false;
         } else {
+            if (index == 0 ){
+                return false;
+            }
             let date = new Date();
             console.log(index);
             date.setDate(index);
@@ -117,7 +120,8 @@ export default function GanttBackground({ lines, absences }) {
             nextDate.setDate(tomorrow);
             let thatMonth = nextDate.getMonth();
             console.log("MESI DIVERSI? " + thisMonth + " " + thatMonth);
-            return (thisMonth != thatMonth);
+            console.log(index + " " + currentIndex);
+            return ((thisMonth != thatMonth)); //minimo gg mese completo
         }
     } 
 
@@ -135,7 +139,7 @@ export default function GanttBackground({ lines, absences }) {
                                     : ( ( index - (index > currentIndex ? 1 : 0) - holidaysRendered - outOfWork) / lines ) * 100}%`, //normal line
                             backgroundColor: index === currentIndex ? 'red' : isTomorrowHoliday(index,false) ? 'lightblue' : '#bbc2c7',
                             width: (   isOutOfWork(index,false) && isLastOfMonth(index) 
-                                    || isTomorrowHoliday(index,false)   && isLastOfMonth(index) ) ? `${1 / lines * 200}%` 
+                                    || isTomorrowHoliday(index,false) && isLastOfMonth(index) ) ? `${1 / lines * 200}%` 
                                 :  index === currentIndex 
                                 || isOutOfWork(index,false) 
                                 || isTomorrowHoliday(index,false) ? `${1 / lines * 100}%` : `0.07%`,

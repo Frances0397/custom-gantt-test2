@@ -107,10 +107,10 @@ export default function GanttTask({ item, index, lines, start, end, absences }) 
         for (let i=0; i<absences.length; ++i){
             let absence = absences[i];
             if (fromDate <= absence.to && toDate >= absence.from) {
-                return 'black';
+                return true;
             }
         }
-        return 'blue';
+        return false;
     }
 
     const isPrevWeek = (taskEnd, firstWeekDay) => {
@@ -136,7 +136,7 @@ export default function GanttTask({ item, index, lines, start, end, absences }) 
                 left: `${firstDayIndex === 0 ? 0 : (firstDayIndex - 1) * (1 / lines) * 100 + 0.05 * firstDayIndex}%`,
                 height: lines === 5 ? 75 : 40,
                 marginTop: lines === 5 ? '7%' : '3%',
-                backgroundColor: `${isAbsent(item.StartDate, item.EndDate)}`,
+                backgroundColor: isAbsent(item.StartDate, item.EndDate) ? 'black' : 'blue',
                 display: isPrevWeek(item.EndDate, firstDayOfWeek) ? 'none' : 'flex'
             }]}
                 onPress={() => { alert(index); }}>
