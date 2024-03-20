@@ -15,18 +15,18 @@ export default function App() {
     { ID: '1', Title: 'Item 1', StartDate: '2024-03-02', EndDate: '2024-03-13' },
     { ID: '2', Title: 'Item 2', StartDate: '2024-03-06', EndDate: '2024-04-01' },
     { ID: '3', Title: 'Item 3', StartDate: '2024-03-11', EndDate: '2024-03-30' },
-    { ID: '4', Title: 'Item 4', StartDate: '2024-03-16', EndDate: '2024-03-20' },
+    { ID: '4', Title: 'Item 4', StartDate: '2024-03-08', EndDate: '2024-03-15' },
     { ID: '5', Title: 'Item 5', StartDate: '2024-03-21', EndDate: '2024-03-27' },
-    { ID: '6', Title: 'Item 6', StartDate: '2024-03-26', EndDate: '2024-03-30' },
+    { ID: '6', Title: 'Item 6', StartDate: '2024-03-16', EndDate: '2024-03-30' },
     { ID: '7', Title: 'Item 7', StartDate: '2024-03-31', EndDate: '2024-04-01' },
     // Add more items as needed
   ];
 
   const absence = {};
   absence.from = new Date();
-  absence.from.setDate(15);
+  absence.from.setDate(19);
   absence.to = new Date();
-  absence.to.setDate(20);
+  absence.to.setDate(21);
   const absences = [];
   absences.push(absence);
 
