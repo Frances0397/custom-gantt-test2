@@ -8,7 +8,6 @@ export default function GanttTask({ item, index, lines, start, end, absences }) 
 
     useEffect(() => {
         setLastDayLeave(absences[absences.length - 1].to.getDate());
-        absence = absences[0]; //MDA
     }, [])
 
     console.log("Index ", index);
@@ -105,7 +104,22 @@ export default function GanttTask({ item, index, lines, start, end, absences }) 
         var fromDate = new Date(from);
         var toDate = new Date(to);
         console.log("TASK - FROM: " + fromDate + " TO: " + toDate);
-        return (fromDate <= absence.to && toDate >= absence.from) ? 'black' : 'blue';
+        for (let i=0; i<absences.length; ++i){
+            let absence = absences[i];
+            if (fromDate <= absence.to && toDate >= absence.from) {
+                return 'black';
+            }
+        }
+        return 'blue';
+    }
+
+    const isPrevWeek = (taskEnd, firstWeekDay) => {
+        if (lines === 5){
+            var taskEndDay = String(taskEnd).substring(String(taskEnd).length - 2, String(taskEnd).length);
+            var date = new Date();
+            date.setDate(taskEndDay);
+            return ( date.getDate() < firstWeekDay.getDate() );
+        }
     }
 
     console.log(lines);
@@ -122,7 +136,8 @@ export default function GanttTask({ item, index, lines, start, end, absences }) 
                 left: `${firstDayIndex === 0 ? 0 : (firstDayIndex - 1) * (1 / lines) * 100 + 0.05 * firstDayIndex}%`,
                 height: lines === 5 ? 75 : 40,
                 marginTop: lines === 5 ? '7%' : '3%',
-                backgroundColor: `${isAbsent(item.StartDate, item.EndDate)}`
+                backgroundColor: `${isAbsent(item.StartDate, item.EndDate)}`,
+                display: isPrevWeek(item.EndDate, firstDayOfWeek) ? 'none' : 'flex'
             }]}
                 onPress={() => { alert(index); }}>
                 <Text style={styles.taskTitle}>{item.ID} - {item.Title}</Text>
