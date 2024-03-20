@@ -14,7 +14,7 @@ export default function GanttBackground({ lines, absences }) {
         absence = absences[0]; //MDA
     }, [])
 
-    var holidaysRendered = -1;
+    var holidaysRendered = 0;
     var outOfWork = 0;
 
     console.log(lines);
@@ -27,35 +27,34 @@ export default function GanttBackground({ lines, absences }) {
             if (currentDay === 0 || currentDay === '6') {
                 return -1;
             } else {
-                return currentDay - 1;
+                return currentDay;
             }
         } else {
             const currentMonthDay = currentDate.getDate();
-            console.log(currentMonthDay);
-            return currentMonthDay - 1;
+            console.log("MONTHDAY: " + currentMonthDay);
+            return currentMonthDay;
         }
     }
 
     const currentIndex = getCurrentIndex();
     console.log(currentIndex);
 
-    const isNextHoliday = (index,calc) => {
+    const isTomorrowHoliday = (index,calc) => {
         let nextDate = new Date();
         let tomorrow = index + 1;
         nextDate.setDate(tomorrow);
         console.log("DATA DI DOMANI: " + nextDate);
         let dayString = nextDate.toLocaleDateString('it-IT',{ weekday: 'short' });
-        console.log(dayString.charAt(0) == 's');
-        if ( (dayString.charAt(0) == 's' && calc == true)){
-            holidaysRendered = holidaysRendered + 2; //di due in due per sab/dom
+        if ( ( ( dayString.charAt(0) == 'd' || dayString.charAt(0) == 'l' ) && calc == true)){
+            holidaysRendered = holidaysRendered + 1; //di due in due per sab/dom
         } 
-        return (dayString.charAt(0) == 's' ? true : false);
-    } 
+        return (dayString.charAt(0) == 'd' || dayString.charAt(0) == 'l' ? true : false);
+    }  
 
     const isTomorrowOutOfWork = (index, calc) => {
         let date = new Date();
-        console.log(index + 1);
-        date.setDate(index + 1);
+        console.log(index);
+        date.setDate(index);
         let dayString = date.toLocaleDateString('it-IT',{ weekday: 'short' });
         if ( dayString.charAt(0) == 's' || dayString.charAt(0) == 'd' ){
             return false;
@@ -64,7 +63,7 @@ export default function GanttBackground({ lines, absences }) {
             let absence = absences[i];
             console.log(date.getDate() + ">" + absence.from.getDate() + "?");
             console.log(date.getDate() + "<" + absence.to.getDate() + "?");
-            if (date.getDate() <= absence.to.getDate() && date.getDate() >= absence.from.getDate()){
+            if ( date.getDate() <= absence.to.getDate() && date.getDate() >= absence.from.getDate() ){
                 if (calc){
                     outOfWork = outOfWork + 1;
                 }
@@ -72,6 +71,16 @@ export default function GanttBackground({ lines, absences }) {
             } 
         }
         return false;
+    }  
+
+    const isLastOfMonth = (index) => {
+        let nextDate = new Date();
+        let tomorrow = index + 2;
+        let thisMonth = nextDate.getMonth();
+        nextDate.setDate(tomorrow);
+        let thatMonth = nextDate.getMonth();
+        console.log("MESI DIVERSI? " + thisMonth + " " + thatMonth);
+        return (thisMonth != thatMonth);
     } 
 
     return (
@@ -81,14 +90,18 @@ export default function GanttBackground({ lines, absences }) {
                     key={index}
                     style={[
                         styles.line,
-                        {                                              //holidaysRendered -1 per passare da venerdì a sabato
-                            left: `${ index === currentIndex /*&& isNextHoliday(index,false)*/ ? ( ( index - holidaysRendered - outOfWork - 1 ) / lines ) * 100 //today line
-                                    : isNextHoliday(index,true) ? ( ( index - ( holidaysRendered - 1 ) - outOfWork - (index > currentIndex ? 1 : 0) ) / lines ) * 100 //holiday line
+                        {                                                                     
+                            left: `${ index === currentIndex ? ( ( index - holidaysRendered - (index == currentIndex ? 1 : 0) - outOfWork ) / lines ) * 100 //today line
+                                    : isTomorrowHoliday(index,true) ? ( ( index - holidaysRendered - outOfWork - (index > currentIndex ? 1 : 0) ) / lines ) * 100 //holiday line
                                     : isTomorrowOutOfWork(index,true) ? ( ( index - holidaysRendered - outOfWork - (index > currentIndex ? 1 : 0) ) / lines ) * 100
                                     : ( ( index - (index > currentIndex ? 1 : 0) - holidaysRendered - outOfWork) / lines ) * 100}%`, //normal line
-                            backgroundColor: index === currentIndex ? 'red' : isNextHoliday(index,false) ? 'lightblue' : '#bbc2c7',
-                            width: index === currentIndex || isTomorrowOutOfWork(index,false) ? `${1 / lines * 100}%` : isNextHoliday(index,false) ? `${1 / lines * 200}%` : `0.07%`,
-                            borderRadius: index === currentIndex || isNextHoliday(index,false) || isTomorrowOutOfWork(index,false) ? 0 : 50,
+                            backgroundColor: index === currentIndex ? 'red' : isTomorrowHoliday(index,false) ? 'lightblue' : '#bbc2c7',
+                            width: (   isTomorrowOutOfWork(index,false) && isLastOfMonth(index) 
+                                    || isTomorrowHoliday(index,false)   && isLastOfMonth(index) ) ? `${1 / lines * 200}%` 
+                                :  index === currentIndex 
+                                || isTomorrowOutOfWork(index,false) 
+                                || isTomorrowHoliday(index,false) ? `${1 / lines * 100}%` : `0.07%`,
+                            borderRadius: index === currentIndex || isTomorrowHoliday(index,false) || isTomorrowOutOfWork(index,false) ? 0 : 50,
                             opacity: index === currentIndex ? '20%' : '100%',
                             zIndex: 0
                         },

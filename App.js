@@ -12,15 +12,23 @@ export default function App() {
   const [lines, setLines] = useState(5);
 
   const items = [
-    { ID: '1', Title: 'Item 1', StartDate: '2023-11-01', EndDate: '2023-11-28' },
-    { ID: '2', Title: 'Item 2', StartDate: '2023-11-28', EndDate: '2023-12-01' },
-    { ID: '3', Title: 'Item 3', StartDate: '2023-11-27', EndDate: '2023-11-30' },
-    { ID: '4', Title: 'Item 4', StartDate: '2023-11-15', EndDate: '2023-11-29' },
-    { ID: '5', Title: 'Item 5', StartDate: '2023-11-22', EndDate: '2023-11-30' },
-    { ID: '6', Title: 'Item 6', StartDate: '2023-11-28', EndDate: '2023-11-30' },
-    { ID: '7', Title: 'Item 7', StartDate: '2023-11-28', EndDate: '2023-11-29' },
+    { ID: '1', Title: 'Item 1', StartDate: '2024-03-02', EndDate: '2024-03-13' },
+    { ID: '2', Title: 'Item 2', StartDate: '2024-03-06', EndDate: '2024-04-01' },
+    { ID: '3', Title: 'Item 3', StartDate: '2024-03-11', EndDate: '2024-03-30' },
+    { ID: '4', Title: 'Item 4', StartDate: '2024-03-16', EndDate: '2024-03-20' },
+    { ID: '5', Title: 'Item 5', StartDate: '2024-03-21', EndDate: '2024-03-27' },
+    { ID: '6', Title: 'Item 6', StartDate: '2024-03-26', EndDate: '2024-03-30' },
+    { ID: '7', Title: 'Item 7', StartDate: '2024-03-31', EndDate: '2024-04-01' },
     // Add more items as needed
   ];
+
+  const absence = {};
+  absence.from = new Date();
+  absence.from.setDate(15);
+  absence.to = new Date();
+  absence.to.setDate(20);
+  const absences = [];
+  absences.push(absence);
 
   const getDaysInMonth = () => {
     const currentDate = new Date();
@@ -89,9 +97,9 @@ export default function App() {
           </View> : <View style={[styles.monthLabel]}>
             {monthArray.map((day, index) => (<Text key={index} style={styles.monthText}>{day}</Text>))}
           </View>}
-        <GanttBackground lines={lines} />
+        <GanttBackground lines={lines} absences={absences} />
         {items.map((item, index) => (
-          <GanttTask key={item.ID} item={item} index={index} lines={lines} start={item.StartDate} end={item.EndDate} />
+          <GanttTask key={item.ID} item={item} index={index} lines={lines} start={item.StartDate} end={item.EndDate} absences={absences}/>
         ))}
       </Card>
     </ScrollView >
@@ -144,9 +152,9 @@ const styles = StyleSheet.create({
     top: 20,
     bottom: 15,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100.5%',
-    left: '0.6%'
+    justifyContent: 'space-around',
+    width: '100%',
+    left: '0.5%'
   },
   monthText: {
     marginLeft: '0.5%'
