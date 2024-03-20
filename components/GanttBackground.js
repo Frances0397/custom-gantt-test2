@@ -81,13 +81,13 @@ export default function GanttBackground({ lines, absences }) {
                     key={index}
                     style={[
                         styles.line,
-                        {                                       
-                            left: `${ isNextHoliday(index,true) ? ( ( index - ( holidaysRendered - 1 ) - outOfWork + (index > currentIndex ? 1 : 0) - (index > lastDayLeave ? 1 : 0) ) / lines ) * 100 //holiday line
-                                    : isTomorrowOutOfWork(index,true) ? ( ( index - holidaysRendered - outOfWork + (index > currentIndex ? 1 : 0) - (index > lastDayLeave ? 1 : 0) ) / lines ) * 100
-                                    : index === currentIndex ? ( ( index - (holidaysRendered) - outOfWork - 1 ) / lines ) * 100 //today line
-                                    : ( ( index + (index > currentIndex ? 1 : 0) - (index > lastDayLeave ? 1 : 0) - holidaysRendered - outOfWork) / lines ) * 100}%`, //normal line
+                        {                                              //holidaysRendered -1 per passare da venerdì a sabato
+                            left: `${ index === currentIndex /*&& isNextHoliday(index,false)*/ ? ( ( index - holidaysRendered - outOfWork - 1 ) / lines ) * 100 //today line
+                                    : isNextHoliday(index,true) ? ( ( index - ( holidaysRendered - 1 ) - outOfWork - (index > currentIndex ? 1 : 0) ) / lines ) * 100 //holiday line
+                                    : isTomorrowOutOfWork(index,true) ? ( ( index - holidaysRendered - outOfWork - (index > currentIndex ? 1 : 0) ) / lines ) * 100
+                                    : ( ( index - (index > currentIndex ? 1 : 0) - holidaysRendered - outOfWork) / lines ) * 100}%`, //normal line
                             backgroundColor: index === currentIndex ? 'red' : isNextHoliday(index,false) ? 'lightblue' : '#bbc2c7',
-                            width: index === currentIndex || isTomorrowOutOfWork(index,false) ? `${1 / lines * 100}%` : isNextHoliday(index,false)  ? `${1 / lines * 200}%` : `0.07%`,
+                            width: index === currentIndex || isTomorrowOutOfWork(index,false) ? `${1 / lines * 100}%` : isNextHoliday(index,false) ? `${1 / lines * 200}%` : `0.07%`,
                             borderRadius: index === currentIndex || isNextHoliday(index,false) || isTomorrowOutOfWork(index,false) ? 0 : 50,
                             opacity: index === currentIndex ? '20%' : '100%',
                             zIndex: 0
